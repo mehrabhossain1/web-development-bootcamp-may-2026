@@ -11,12 +11,13 @@ import {
   type DragStartEvent,
 } from "@dnd-kit/core";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Canvas } from "@/features/builder/components/Canvas";
 import { Palette } from "@/features/builder/components/Palette";
 import { PropertiesPanel } from "@/features/builder/property-editors/PropertiesPanel";
 import { useEditorStore } from "@/features/builder/store/editorStore";
+import { updateProject } from "@/features/projects/actions";
 import { ElementRenderer } from "@/features/renderer/ElementRenderer";
 import { createElement, ELEMENT_REGISTRY } from "@/lib/builder/defaults";
 import { findElement, findParent } from "@/lib/builder/tree";
@@ -45,12 +46,21 @@ function resolveDrop(
   return { parentId: doc.root.id, index: doc.root.children.length };
 }
 
-export function BuilderShell() {
+export function BuilderShell({
+  projectId,
+  initialDoc,
+}: {
+  projectId: string;
+  initialDoc: PageDocument;
+}) {
   const doc = useEditorStore((s) => s.doc);
   const isDirty = useEditorStore((s) => s.isDirty);
   const addElement = useEditorStore((s) => s.addElement);
   const moveElement = useEditorStore((s) => s.moveElement);
+  const setDoc = useEditorStore((s) => s.setDoc);
+  const markSaved = useEditorStore((s) => s.markSaved);
 
+  const [saving, setSaving] = useState(false);
   const [draggingType, setDraggingType] = useState<ElementType | null>(null);
   const [draggingElementId, setDraggingElementId] = useState<string | null>(
     null,
@@ -60,9 +70,12 @@ export function BuilderShell() {
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
   );
 
-  const draggingElement = draggingElementId
-    ? findElement(doc, draggingElementId)
-    : null;
+  // Load the project's document into the store after mount. Effects don't run
+  // during SSR, so the server keeps the pristine default doc — server and
+  // client first-render produce identical markup (no hydration mismatch).
+  useEffect(() => {
+    setDoc(initialDoc);
+  }, [initialDoc, setDoc]);
 
   function handleDragStart(event: DragStartEvent) {
     const data = event.active.data.current;
@@ -103,6 +116,22 @@ export function BuilderShell() {
     }
   }
 
+  async function handleSave() {
+    setSaving(true);
+    try {
+      await updateProject(projectId, useEditorStore.getState().doc);
+      markSaved();
+    } catch {
+      alert("Failed to save. Please try again.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  const draggingElement = draggingElementId
+    ? findElement(doc, draggingElementId)
+    : null;
+
   return (
     <DndContext
       id="builder-dnd"
@@ -122,14 +151,15 @@ export function BuilderShell() {
             Website Builder
           </Link>
           <div className="flex items-center gap-2 text-sm">
-            {/* Save / Preview / Export are wired in TICKET-22 / 23 / 24. */}
             <button
               type="button"
-              disabled={!isDirty}
+              onClick={handleSave}
+              disabled={!isDirty || saving}
               className="rounded-md bg-zinc-900 px-3 py-1.5 font-medium text-white disabled:opacity-40"
             >
-              Save
+              {saving ? "Saving…" : "Save"}
             </button>
+            {/* Preview / Export are wired in TICKET-23 / 24. */}
             <button
               type="button"
               className="rounded-md border border-black/15 px-3 py-1.5 font-medium hover:bg-black/5"

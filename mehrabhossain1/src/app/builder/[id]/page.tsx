@@ -1,13 +1,30 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import { BuilderShell } from "@/features/builder/components/BuilderShell";
+import { getProject } from "@/features/projects/queries";
+import { createEmptyDocument } from "@/lib/builder/defaults";
+import { pageDocumentSchema } from "@/lib/builder/schema";
 
 export const metadata: Metadata = {
   title: "Builder",
 };
 
-// Minimal route host for the builder shell. TICKET-22 wires this up:
-// awaits `params`, fetches the project, and feeds its document into the store.
-export default function BuilderPage() {
-  return <BuilderShell />;
+export default async function BuilderPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
+  const project = await getProject(id);
+  if (!project) {
+    notFound();
+  }
+
+  // Stored tree is a JSON column; validate it back into a typed document.
+  const parsed = pageDocumentSchema.safeParse(project.tree);
+  const initialDoc = parsed.success ? parsed.data : createEmptyDocument();
+
+  return <BuilderShell projectId={project.id} initialDoc={initialDoc} />;
 }

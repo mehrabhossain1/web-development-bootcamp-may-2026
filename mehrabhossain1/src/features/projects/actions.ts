@@ -55,8 +55,9 @@ export async function updateProject(id: string, tree: PageDocument) {
     throw new Error("Project not found");
   }
 
+  // Only the dashboard list needs revalidating; the builder owns its own
+  // client state, so refreshing its route here could clobber live edits.
   revalidatePath("/dashboard");
-  revalidatePath(`/builder/${id}`);
 }
 
 /** Deletes a project the current user owns. */
