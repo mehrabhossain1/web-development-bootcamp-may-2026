@@ -64,6 +64,24 @@ export function findElement(
   return search(doc.root);
 }
 
+/** Finds the container that directly holds `id`, or `null` (the root has none). */
+export function findParent(
+  doc: PageDocument,
+  id: string,
+): ContainerElement | null {
+  const search = (container: ContainerElement): ContainerElement | null => {
+    for (const child of container.children) {
+      if (child.id === id) return container;
+      if (isContainer(child)) {
+        const found = search(child);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+  return search(doc.root);
+}
+
 /**
  * Adds `element` as a child of the container `parentId` at `index`
  * (appended when `index` is omitted). No-op if the parent is missing or
