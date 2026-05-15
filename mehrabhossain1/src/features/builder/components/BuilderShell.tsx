@@ -10,6 +10,7 @@ import {
   type DragEndEvent,
   type DragStartEvent,
 } from "@dnd-kit/core";
+import Link from "next/link";
 import { useState } from "react";
 
 import { Canvas } from "@/features/builder/components/Canvas";
@@ -114,7 +115,12 @@ export function BuilderShell() {
       <div className="flex h-[100dvh] flex-col overflow-hidden bg-zinc-100 text-zinc-900">
         {/* Toolbar */}
         <header className="flex h-14 shrink-0 items-center justify-between border-b border-black/10 bg-white px-4">
-          <span className="font-semibold tracking-tight">Website Builder</span>
+          <Link
+            href="/dashboard"
+            className="font-semibold tracking-tight hover:opacity-80"
+          >
+            Website Builder
+          </Link>
           <div className="flex items-center gap-2 text-sm">
             {/* Save / Preview / Export are wired in TICKET-22 / 23 / 24. */}
             <button
