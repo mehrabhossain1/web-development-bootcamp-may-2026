@@ -14,6 +14,7 @@ import { useState } from "react";
 
 import { Canvas } from "@/features/builder/components/Canvas";
 import { Palette } from "@/features/builder/components/Palette";
+import { PropertiesPanel } from "@/features/builder/property-editors/PropertiesPanel";
 import { useEditorStore } from "@/features/builder/store/editorStore";
 import { ElementRenderer } from "@/features/renderer/ElementRenderer";
 import { createElement, ELEMENT_REGISTRY } from "@/lib/builder/defaults";
@@ -45,7 +46,6 @@ function resolveDrop(
 
 export function BuilderShell() {
   const doc = useEditorStore((s) => s.doc);
-  const selectedId = useEditorStore((s) => s.selectedId);
   const isDirty = useEditorStore((s) => s.isDirty);
   const addElement = useEditorStore((s) => s.addElement);
   const moveElement = useEditorStore((s) => s.moveElement);
@@ -59,7 +59,6 @@ export function BuilderShell() {
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
   );
 
-  const selected = selectedId ? findElement(doc, selectedId) : null;
   const draggingElement = draggingElementId
     ? findElement(doc, draggingElementId)
     : null;
@@ -148,18 +147,7 @@ export function BuilderShell() {
             <h2 className="px-1 pb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
               Properties
             </h2>
-            {selected ? (
-              <div className="rounded-md border border-black/10 p-3 text-sm">
-                <p className="font-medium capitalize">{selected.type}</p>
-                <p className="mt-1 break-all text-xs text-zinc-500">
-                  {selected.id}
-                </p>
-              </div>
-            ) : (
-              <p className="px-1 text-sm text-zinc-500">
-                Select an element to edit its properties.
-              </p>
-            )}
+            <PropertiesPanel />
           </aside>
         </div>
       </div>
