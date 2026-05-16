@@ -167,7 +167,13 @@ model Project {
 
 ## Deployment
 
-The app deploys to **Vercel**. Set the project's **Root Directory** to
-`mehrabhossain1`, add the four environment variables above (with the deployed
-domain as `AUTH_URL`), and Vercel builds and hosts it. _Full deployment steps:
-TICKET-28._
+The app is hosted on **Vercel**. To deploy your own instance:
+
+1. Import the repository into Vercel.
+2. Set **Root Directory** to `mehrabhossain1` and confirm the **Framework
+   Preset** is **Next.js**.
+3. Override the **Build Command** with `prisma migrate deploy && next build` so
+   migrations run before the build.
+4. Add the four environment variables from the table above.
+5. Deploy. After the first deploy, set `AUTH_URL` to the assigned
+   `*.vercel.app` domain and redeploy so Auth.js uses the correct base URL.
