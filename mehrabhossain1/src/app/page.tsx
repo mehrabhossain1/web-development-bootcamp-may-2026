@@ -5,6 +5,7 @@ import { BrandMark } from "@/components/BrandMark";
 import { Badge } from "@/components/ui/Badge";
 import { buttonClass } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { auth } from "@/lib/auth";
 
 const FEATURES = [
   {
@@ -68,7 +69,9 @@ function BuilderMockup() {
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+
   return (
     <div className="flex flex-1 flex-col bg-white">
       {/* Nav */}
@@ -76,12 +79,26 @@ export default function Home() {
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-3.5">
           <BrandMark />
           <nav className="flex items-center gap-2">
-            <Link href="/login" className={buttonClass("ghost", "sm")}>
-              Log in
-            </Link>
-            <Link href="/register" className={buttonClass("gradient", "sm")}>
-              Get started
-            </Link>
+            {session ? (
+              <Link
+                href="/dashboard"
+                className={buttonClass("gradient", "sm")}
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link href="/login" className={buttonClass("ghost", "sm")}>
+                  Log in
+                </Link>
+                <Link
+                  href="/register"
+                  className={buttonClass("gradient", "sm")}
+                >
+                  Get started
+                </Link>
+              </>
+            )}
           </nav>
         </div>
       </header>
