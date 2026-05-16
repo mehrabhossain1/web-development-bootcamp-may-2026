@@ -1,4 +1,10 @@
-import { PanelBottom, PanelTop, Sparkles } from "lucide-react";
+import {
+  BarChart3,
+  LayoutGrid,
+  PanelBottom,
+  PanelTop,
+  Sparkles,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 import type {
@@ -259,6 +265,136 @@ function createFooter(): ContainerElement {
   );
 }
 
+/** A feature card — emoji icon, title, and body. */
+function featureCard(
+  icon: string,
+  title: string,
+  body: string,
+): ContainerElement {
+  return box(
+    {
+      display: "flex",
+      flexDirection: "column",
+      gap: "10px",
+      flex: "1 1 180px",
+      padding: "24px",
+      backgroundColor: "#f8fafc",
+      border: "1px solid #e2e8f0",
+      borderRadius: "12px",
+    },
+    [
+      text(icon, { fontSize: "28px", lineHeight: "1" }),
+      text(title, {
+        fontSize: "16px",
+        fontWeight: "600",
+        color: "#0f172a",
+      }),
+      text(body, {
+        fontSize: "14px",
+        lineHeight: "1.6",
+        color: "#475569",
+      }),
+    ],
+  );
+}
+
+function createFeatures(): ContainerElement {
+  return box(
+    {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "16px",
+      padding: "64px 32px",
+      backgroundColor: "#ffffff",
+    },
+    [
+      text("Everything you need", {
+        fontSize: "32px",
+        fontWeight: "700",
+        color: "#0f172a",
+        textAlign: "center",
+      }),
+      text("Powerful features to help you build and ship faster.", {
+        fontSize: "16px",
+        lineHeight: "1.6",
+        color: "#475569",
+        textAlign: "center",
+        maxWidth: "440px",
+      }),
+      box(
+        {
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "16px",
+          padding: "16px 0px 0px",
+          backgroundColor: "transparent",
+        },
+        [
+          featureCard(
+            "⚡",
+            "Fast by default",
+            "Ship polished pages in minutes with sensible defaults.",
+          ),
+          featureCard(
+            "🎯",
+            "Pixel control",
+            "Fine-tune every block's content, colors, and spacing.",
+          ),
+          featureCard(
+            "✨",
+            "No code needed",
+            "Drag, drop, and publish — no setup, no build step.",
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+/** A single stat — a large number and a label. */
+function statItem(value: string, label: string): ContainerElement {
+  return box(
+    {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "4px",
+      padding: "0px",
+      backgroundColor: "transparent",
+    },
+    [
+      text(value, {
+        fontSize: "36px",
+        fontWeight: "700",
+        color: "#047857",
+      }),
+      text(label, { fontSize: "14px", color: "#475569" }),
+    ],
+  );
+}
+
+function createStats(): ContainerElement {
+  return box(
+    {
+      display: "flex",
+      flexDirection: "row",
+      flexWrap: "wrap",
+      justifyContent: "space-around",
+      gap: "32px",
+      padding: "48px 32px",
+      backgroundColor: "#f8fafc",
+    },
+    [
+      statItem("10k+", "Pages built"),
+      statItem("99.9%", "Uptime"),
+      statItem("4.9/5", "User rating"),
+      statItem("24/7", "Support"),
+    ],
+  );
+}
+
 /** Registry of section presets shown in the palette. */
 export const SECTION_PRESETS: SectionPreset[] = [
   {
@@ -274,6 +410,20 @@ export const SECTION_PRESETS: SectionPreset[] = [
     description: "Headline, subtext, and call-to-action",
     icon: Sparkles,
     create: createHero,
+  },
+  {
+    key: "features",
+    label: "Features",
+    description: "A heading and a row of feature cards",
+    icon: LayoutGrid,
+    create: createFeatures,
+  },
+  {
+    key: "stats",
+    label: "Stats",
+    description: "A band of headline metrics",
+    icon: BarChart3,
+    create: createStats,
   },
   {
     key: "footer",
