@@ -26,5 +26,11 @@ export default async function BuilderPage({
   const parsed = pageDocumentSchema.safeParse(project.tree);
   const initialDoc = parsed.success ? parsed.data : createEmptyDocument();
 
-  return <BuilderShell projectId={project.id} initialDoc={initialDoc} />;
+  return (
+    <BuilderShell
+      projectId={project.id}
+      projectName={project.name}
+      initialDoc={initialDoc}
+    />
+  );
 }
