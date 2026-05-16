@@ -4,7 +4,7 @@ A drag-and-drop website builder that runs entirely in the browser. Drag blocks
 onto a canvas, edit their properties in a side panel, save your work, share a
 clean live preview, and export a standalone HTML file — no code required.
 
-> **Live demo:** _TODO — add the Vercel URL after deployment (TICKET-28)._
+> **Live demo:** [drag-and-drop-website-builder.vercel.app](https://drag-and-drop-website-builder.vercel.app)
 
 ## Screenshots
 
