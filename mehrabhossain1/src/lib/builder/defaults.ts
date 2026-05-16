@@ -1,3 +1,6 @@
+import { Box, Image, MousePointerClick, Type } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
 import type {
   BuilderElement,
   ContainerElement,
@@ -5,15 +8,31 @@ import type {
   PageDocument,
 } from "@/types/builder";
 
-/** Palette metadata per element type (label + emoji icon). */
+/** Palette metadata per element type — label, description, and lucide icon. */
 export const ELEMENT_REGISTRY: Record<
   ElementType,
-  { label: string; icon: string }
+  { label: string; description: string; icon: LucideIcon }
 > = {
-  text: { label: "Text", icon: "📝" },
-  image: { label: "Image", icon: "🖼️" },
-  button: { label: "Button", icon: "🔘" },
-  container: { label: "Container", icon: "📦" },
+  text: {
+    label: "Text",
+    description: "A paragraph of text",
+    icon: Type,
+  },
+  image: {
+    label: "Image",
+    description: "An image from a URL",
+    icon: Image,
+  },
+  button: {
+    label: "Button",
+    description: "A clickable link button",
+    icon: MousePointerClick,
+  },
+  container: {
+    label: "Container",
+    description: "A box that holds other blocks",
+    icon: Box,
+  },
 };
 
 /** Order in which element types appear in the palette. */

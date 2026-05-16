@@ -49,6 +49,19 @@ function resolveDrop(
   return { parentId: doc.root.id, index: doc.root.children.length };
 }
 
+/** Drag ghost for a palette block being dragged onto the canvas. */
+function PaletteGhost({ type }: { type: ElementType }) {
+  const { icon: Icon, label } = ELEMENT_REGISTRY[type];
+  return (
+    <div className="flex items-center gap-2 rounded-btn border border-border bg-white px-3 py-2 shadow-pop">
+      <span className="flex size-7 items-center justify-center rounded-lg bg-accent-soft text-primary">
+        <Icon className="size-4" />
+      </span>
+      <span className="text-sm font-medium text-fg">{label}</span>
+    </div>
+  );
+}
+
 /** Toolbar save-state indicator. */
 function SaveStatus({ saving, dirty }: { saving: boolean; dirty: boolean }) {
   if (saving) {
@@ -256,12 +269,7 @@ export function BuilderShell({
 
       <DragOverlay>
         {draggingType ? (
-          <div className="flex items-center gap-2 rounded-btn border border-border bg-white px-3 py-2 text-sm shadow-pop">
-            <span aria-hidden>{ELEMENT_REGISTRY[draggingType].icon}</span>
-            <span className="font-medium text-fg">
-              {ELEMENT_REGISTRY[draggingType].label}
-            </span>
-          </div>
+          <PaletteGhost type={draggingType} />
         ) : draggingElement ? (
           <div style={{ opacity: 0.85 }}>
             <ElementRenderer element={draggingElement} mode="preview" />

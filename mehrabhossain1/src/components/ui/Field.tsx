@@ -36,7 +36,9 @@ export function Field({
         id={inputId}
         className={cn(
           inputClass,
-          error && "border-danger focus:border-danger focus:ring-danger/30",
+          error
+            ? "border-danger focus:border-danger focus:ring-danger/30"
+            : null,
           className,
         )}
         aria-invalid={error ? true : undefined}
