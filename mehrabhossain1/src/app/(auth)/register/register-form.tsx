@@ -1,13 +1,14 @@
 "use client";
 
+import { CircleAlert } from "lucide-react";
 import { useActionState } from "react";
+
+import { Button } from "@/components/ui/Button";
+import { Field } from "@/components/ui/Field";
 
 import { registerUser, type RegisterState } from "./actions";
 
 const initialState: RegisterState = {};
-
-const fieldClass =
-  "mt-1 w-full rounded-md border border-black/15 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900";
 
 export function RegisterForm() {
   const [state, formAction, pending] = useActionState(
@@ -20,62 +21,47 @@ export function RegisterForm() {
       {state.error ? (
         <p
           aria-live="polite"
-          className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700"
+          className="flex items-center gap-2 rounded-field bg-rose-50 px-3 py-2 text-sm font-medium text-danger"
         >
+          <CircleAlert className="size-4 shrink-0" />
           {state.error}
         </p>
       ) : null}
 
-      <div>
-        <label htmlFor="name" className="text-sm font-medium">
-          Name
-        </label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          autoComplete="name"
-          required
-          className={fieldClass}
-        />
-      </div>
+      <Field
+        label="Name"
+        name="name"
+        type="text"
+        autoComplete="name"
+        required
+      />
 
-      <div>
-        <label htmlFor="email" className="text-sm font-medium">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          className={fieldClass}
-        />
-      </div>
+      <Field
+        label="Email"
+        name="email"
+        type="email"
+        autoComplete="email"
+        required
+      />
 
-      <div>
-        <label htmlFor="password" className="text-sm font-medium">
-          Password
-        </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          autoComplete="new-password"
-          required
-          minLength={8}
-          className={fieldClass}
-        />
-      </div>
+      <Field
+        label="Password"
+        name="password"
+        type="password"
+        autoComplete="new-password"
+        required
+        minLength={8}
+        hint="At least 8 characters."
+      />
 
-      <button
+      <Button
         type="submit"
-        disabled={pending}
-        className="mt-2 rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 disabled:opacity-50"
+        variant="gradient"
+        loading={pending}
+        className="mt-2 w-full"
       >
         {pending ? "Creating account…" : "Create account"}
-      </button>
+      </Button>
     </form>
   );
 }

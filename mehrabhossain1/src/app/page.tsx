@@ -1,6 +1,7 @@
-import { ArrowRight, Blocks, Code2, Eye, MousePointerClick } from "lucide-react";
+import { ArrowRight, Code2, Eye, MousePointerClick } from "lucide-react";
 import Link from "next/link";
 
+import { BrandMark } from "@/components/BrandMark";
 import { Badge } from "@/components/ui/Badge";
 import { buttonClass } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -22,20 +23,6 @@ const FEATURES = [
     body: "Download any page as a standalone HTML file with inline styles that opens in any browser.",
   },
 ];
-
-/** Brand wordmark with the gradient logo mark. */
-function BrandMark() {
-  return (
-    <span className="flex items-center gap-2">
-      <span className="flex size-8 items-center justify-center rounded-lg bg-gradient-brand text-white">
-        <Blocks className="size-5" />
-      </span>
-      <span className="font-semibold tracking-tight text-fg">
-        Website Builder
-      </span>
-    </span>
-  );
-}
 
 /** Abstract CSS mockup of the builder — the hero's product visual. */
 function BuilderMockup() {
