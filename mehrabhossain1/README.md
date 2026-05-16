@@ -8,13 +8,11 @@ clean live preview, and export a standalone HTML file — no code required.
 
 ## Screenshots
 
-> _TODO — capture and add real images before submission._
+![Landing page](screenshots/landing-page.png)
 
-| Builder | Dashboard |
+| Dashboard | Builder |
 | --- | --- |
-| ![Builder canvas](docs/screenshot-builder.png) | ![Project dashboard](docs/screenshot-dashboard.png) |
-
-![Drag-and-drop demo](docs/demo.gif)
+| ![Project dashboard](screenshots/projects-page.png) | ![Builder editor](screenshots/builders-page.png) |
 
 ## Features
 
