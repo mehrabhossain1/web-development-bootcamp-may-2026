@@ -3,6 +3,7 @@ import {
   CircleHelp,
   CreditCard,
   LayoutGrid,
+  LayoutTemplate,
   Megaphone,
   PanelBottom,
   PanelTop,
@@ -697,8 +698,39 @@ function createCta(): ContainerElement {
   );
 }
 
+/** A complete landing page — every section stacked in page order. */
+function createLandingTemplate(): ContainerElement {
+  return box(
+    {
+      display: "flex",
+      flexDirection: "column",
+      gap: "0px",
+      padding: "0px",
+      backgroundColor: "#ffffff",
+    },
+    [
+      createHeader(),
+      createHero(),
+      createFeatures(),
+      createStats(),
+      createPricing(),
+      createTestimonials(),
+      createFaq(),
+      createCta(),
+      createFooter(),
+    ],
+  );
+}
+
 /** Registry of section presets shown in the palette. */
 export const SECTION_PRESETS: SectionPreset[] = [
+  {
+    key: "landing",
+    label: "Full landing page",
+    description: "Every section, ready to edit",
+    icon: LayoutTemplate,
+    create: createLandingTemplate,
+  },
   {
     key: "header",
     label: "Header",
