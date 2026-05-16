@@ -1,5 +1,6 @@
 import {
   BarChart3,
+  CreditCard,
   LayoutGrid,
   PanelBottom,
   PanelTop,
@@ -395,6 +396,119 @@ function createStats(): ContainerElement {
   );
 }
 
+/** A pricing plan card — name, price, feature lines, and a CTA. */
+function pricingCard(
+  name: string,
+  price: string,
+  features: string[],
+  featured: boolean,
+): ContainerElement {
+  return box(
+    {
+      display: "flex",
+      flexDirection: "column",
+      gap: "14px",
+      flex: "1 1 200px",
+      padding: "28px",
+      backgroundColor: "#ffffff",
+      border: featured ? "2px solid #047857" : "1px solid #e2e8f0",
+      borderRadius: "14px",
+    },
+    [
+      text(name, {
+        fontSize: "15px",
+        fontWeight: "600",
+        color: "#0f172a",
+      }),
+      text(price, {
+        fontSize: "38px",
+        fontWeight: "700",
+        lineHeight: "1",
+        color: "#0f172a",
+      }),
+      text("per month", { fontSize: "13px", color: "#64748b" }),
+      ...features.map((feature) =>
+        text(`✓  ${feature}`, {
+          fontSize: "14px",
+          lineHeight: "1.5",
+          color: "#475569",
+        }),
+      ),
+      button("Choose plan", "#", {
+        display: "block",
+        padding: "10px 18px",
+        textAlign: "center",
+        backgroundColor: featured ? "#047857" : "#ffffff",
+        color: featured ? "#ffffff" : "#0f172a",
+        border: featured ? "1px solid #047857" : "1px solid #e2e8f0",
+        borderRadius: "10px",
+        fontSize: "14px",
+        fontWeight: "600",
+        textDecoration: "none",
+      }),
+    ],
+  );
+}
+
+function createPricing(): ContainerElement {
+  return box(
+    {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "16px",
+      padding: "64px 32px",
+      backgroundColor: "#ffffff",
+    },
+    [
+      text("Simple, transparent pricing", {
+        fontSize: "32px",
+        fontWeight: "700",
+        color: "#0f172a",
+        textAlign: "center",
+      }),
+      text("Start free. Upgrade when you’re ready.", {
+        fontSize: "16px",
+        lineHeight: "1.6",
+        color: "#475569",
+        textAlign: "center",
+        maxWidth: "420px",
+      }),
+      box(
+        {
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "16px",
+          padding: "16px 0px 0px",
+          backgroundColor: "transparent",
+        },
+        [
+          pricingCard(
+            "Starter",
+            "$0",
+            ["1 project", "Core blocks", "Community support"],
+            false,
+          ),
+          pricingCard(
+            "Pro",
+            "$19",
+            ["Unlimited projects", "All sections", "Priority support"],
+            true,
+          ),
+          pricingCard(
+            "Team",
+            "$49",
+            ["Everything in Pro", "5 seats", "SSO & audit log"],
+            false,
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
 /** Registry of section presets shown in the palette. */
 export const SECTION_PRESETS: SectionPreset[] = [
   {
@@ -424,6 +538,13 @@ export const SECTION_PRESETS: SectionPreset[] = [
     description: "A band of headline metrics",
     icon: BarChart3,
     create: createStats,
+  },
+  {
+    key: "pricing",
+    label: "Pricing",
+    description: "Three-tier pricing plans",
+    icon: CreditCard,
+    create: createPricing,
   },
   {
     key: "footer",
