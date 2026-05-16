@@ -24,6 +24,7 @@ import { useEditorStore } from "@/features/builder/store/editorStore";
 import { updateProject } from "@/features/projects/actions";
 import { ElementRenderer } from "@/features/renderer/ElementRenderer";
 import { createElement, ELEMENT_REGISTRY } from "@/lib/builder/defaults";
+import { createPreset, SECTION_PRESETS } from "@/lib/builder/presets";
 import { findElement, findParent } from "@/lib/builder/tree";
 import type { ElementType, PageDocument } from "@/types/builder";
 
@@ -59,6 +60,21 @@ function PaletteGhost({ type }: { type: ElementType }) {
         <Icon className="size-4" />
       </span>
       <span className="text-sm font-medium text-fg">{label}</span>
+    </div>
+  );
+}
+
+/** Drag ghost for a section preset being dragged onto the canvas. */
+function PresetGhost({ presetKey }: { presetKey: string }) {
+  const preset = SECTION_PRESETS.find((p) => p.key === presetKey);
+  if (!preset) return null;
+  const Icon = preset.icon;
+  return (
+    <div className="flex items-center gap-2 rounded-btn border border-border bg-white px-3 py-2 shadow-pop">
+      <span className="flex size-7 items-center justify-center rounded-lg bg-accent-soft text-primary">
+        <Icon className="size-4" />
+      </span>
+      <span className="text-sm font-medium text-fg">{preset.label}</span>
     </div>
   );
 }
@@ -110,6 +126,7 @@ export function BuilderShell({
   const [draggingElementId, setDraggingElementId] = useState<string | null>(
     null,
   );
+  const [draggingPreset, setDraggingPreset] = useState<string | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
@@ -125,7 +142,11 @@ export function BuilderShell({
   function handleDragStart(event: DragStartEvent) {
     const data = event.active.data.current;
     if (data?.source === "palette") {
-      setDraggingType(data.type as ElementType);
+      if (data.preset) {
+        setDraggingPreset(String(data.preset));
+      } else if (data.type) {
+        setDraggingType(data.type as ElementType);
+      }
     } else if (data?.source === "canvas") {
       setDraggingElementId(String(event.active.id));
     }
@@ -134,6 +155,7 @@ export function BuilderShell({
   function clearDrag() {
     setDraggingType(null);
     setDraggingElementId(null);
+    setDraggingPreset(null);
   }
 
   function handleDragEnd(event: DragEndEvent) {
@@ -146,6 +168,11 @@ export function BuilderShell({
     const target = resolveDrop(currentDoc, String(over.id));
 
     if (data?.source === "palette") {
+      if (data.preset) {
+        const section = createPreset(String(data.preset));
+        if (section) addElement(target.parentId, section, target.index);
+        return;
+      }
       addElement(
         target.parentId,
         createElement(data.type as ElementType),
@@ -272,6 +299,8 @@ export function BuilderShell({
       <DragOverlay>
         {draggingType ? (
           <PaletteGhost type={draggingType} />
+        ) : draggingPreset ? (
+          <PresetGhost presetKey={draggingPreset} />
         ) : draggingElement ? (
           <div style={{ opacity: 0.85 }}>
             <ElementRenderer element={draggingElement} mode="preview" />
