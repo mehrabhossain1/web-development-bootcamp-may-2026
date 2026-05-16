@@ -5,6 +5,7 @@ import type { CSSProperties } from "react";
 
 import { ContainerBody } from "@/features/builder/components/CanvasElement";
 import { useEditorStore } from "@/features/builder/store/editorStore";
+import { cn } from "@/lib/cn";
 
 export function Canvas() {
   const doc = useEditorStore((s) => s.doc);
@@ -16,17 +17,27 @@ export function Canvas() {
 
   return (
     <main
-      className="overflow-auto bg-zinc-100 p-8"
+      className="overflow-auto bg-surface p-8"
       onClick={() => select(null)}
     >
-      <div
-        ref={setNodeRef}
-        style={doc.root.styles as CSSProperties}
-        className={`mx-auto max-w-3xl bg-white shadow-sm ring-2 transition-colors ${
-          isOver ? "ring-blue-400" : "ring-transparent"
-        }`}
-      >
-        <ContainerBody container={doc.root} />
+      <div className="mx-auto flex min-h-full max-w-3xl flex-col overflow-hidden rounded-xl border border-border bg-white shadow-card">
+        {/* Device chrome */}
+        <div className="flex shrink-0 items-center gap-1.5 border-b border-border bg-surface px-3 py-2.5">
+          <span className="size-2.5 rounded-full bg-rose-400" />
+          <span className="size-2.5 rounded-full bg-amber-400" />
+          <span className="size-2.5 rounded-full bg-emerald-400" />
+        </div>
+        {/* The page being built */}
+        <div
+          ref={setNodeRef}
+          style={doc.root.styles as CSSProperties}
+          className={cn(
+            "flex-1 outline-2 -outline-offset-2 transition-[outline-color]",
+            isOver ? "outline-dashed outline-primary" : "outline-transparent",
+          )}
+        >
+          <ContainerBody container={doc.root} isRoot />
+        </div>
       </div>
     </main>
   );
