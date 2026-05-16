@@ -7,7 +7,7 @@ import { loginUser, type LoginState } from "./actions";
 const initialState: LoginState = {};
 
 const fieldClass =
-  "mt-1 w-full rounded-md border border-black/15 bg-transparent px-3 py-2 text-sm outline-none focus:border-foreground dark:border-white/20";
+  "mt-1 w-full rounded-md border border-black/15 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900";
 
 export function LoginForm() {
   const [state, formAction, pending] = useActionState(loginUser, initialState);
@@ -17,7 +17,7 @@ export function LoginForm() {
       {state.error ? (
         <p
           aria-live="polite"
-          className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950/40 dark:text-red-400"
+          className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700"
         >
           {state.error}
         </p>
@@ -54,7 +54,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={pending}
-        className="mt-2 rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background hover:opacity-90 disabled:opacity-50"
+        className="mt-2 rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 disabled:opacity-50"
       >
         {pending ? "Signing in…" : "Log in"}
       </button>

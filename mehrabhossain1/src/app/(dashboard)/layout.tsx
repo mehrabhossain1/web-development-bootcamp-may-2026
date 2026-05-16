@@ -15,28 +15,28 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex min-h-full flex-1 flex-col">
-      <header className="flex items-center justify-between border-b border-black/10 px-6 py-3 dark:border-white/15">
-        <Link href="/dashboard" className="font-semibold tracking-tight">
-          Website Builder
-        </Link>
-        <div className="flex items-center gap-4 text-sm">
-          <span className="text-zinc-600 dark:text-zinc-400">
-            {session.user.name}
-          </span>
-          <form
-            action={async () => {
-              "use server";
-              await signOut({ redirectTo: "/login" });
-            }}
-          >
-            <button
-              type="submit"
-              className="rounded-md border border-black/15 px-3 py-1.5 font-medium hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10"
+    <div className="flex min-h-full flex-1 flex-col bg-zinc-50 text-zinc-900">
+      <header className="border-b border-black/10 bg-white">
+        <div className="mx-auto flex w-full max-w-4xl items-center justify-between px-6 py-3">
+          <Link href="/dashboard" className="font-semibold tracking-tight">
+            Website Builder
+          </Link>
+          <div className="flex items-center gap-4 text-sm">
+            <span className="text-zinc-600">{session.user.name}</span>
+            <form
+              action={async () => {
+                "use server";
+                await signOut({ redirectTo: "/login" });
+              }}
             >
-              Sign out
-            </button>
-          </form>
+              <button
+                type="submit"
+                className="rounded-md border border-black/15 px-3 py-1.5 font-medium hover:bg-black/5"
+              >
+                Sign out
+              </button>
+            </form>
+          </div>
         </div>
       </header>
 

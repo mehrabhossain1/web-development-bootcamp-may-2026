@@ -20,7 +20,7 @@ export default async function DashboardPage() {
           <h1 className="text-2xl font-semibold tracking-tight">
             Your projects
           </h1>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-zinc-600">
             Create a site and start building.
           </p>
         </div>
@@ -30,11 +30,11 @@ export default async function DashboardPage() {
             type="text"
             name="name"
             placeholder="Project name"
-            className="rounded-md border border-black/15 bg-transparent px-3 py-1.5 text-sm outline-none focus:border-foreground dark:border-white/20"
+            className="rounded-md border border-black/15 bg-white px-3 py-1.5 text-sm outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
           />
           <button
             type="submit"
-            className="rounded-md bg-foreground px-3 py-1.5 text-sm font-medium text-background hover:opacity-90"
+            className="rounded-md bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-zinc-700"
           >
             New project
           </button>
@@ -42,7 +42,7 @@ export default async function DashboardPage() {
       </div>
 
       {projects.length === 0 ? (
-        <div className="mt-10 rounded-xl border border-dashed border-black/15 px-6 py-16 text-center dark:border-white/15">
+        <div className="mt-10 rounded-xl border border-dashed border-black/15 bg-white px-6 py-16 text-center">
           <p className="text-sm font-medium">No projects yet</p>
           <p className="mt-1 text-sm text-zinc-500">
             Use the “New project” button above to create your first site.
@@ -53,7 +53,7 @@ export default async function DashboardPage() {
           {projects.map((project) => (
             <li
               key={project.id}
-              className="flex items-center justify-between gap-3 rounded-xl border border-black/10 p-4 dark:border-white/15"
+              className="flex items-center justify-between gap-3 rounded-xl border border-black/10 bg-white p-4 transition-colors hover:border-black/25"
             >
               <Link href={`/builder/${project.id}`} className="min-w-0 flex-1">
                 <span className="block truncate font-medium">
