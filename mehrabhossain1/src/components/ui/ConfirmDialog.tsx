@@ -54,6 +54,7 @@ export function ConfirmDialog({
       </button>
       <dialog
         ref={dialogRef}
+        aria-labelledby="confirm-dialog-title"
         onClick={(event) => {
           // A click whose target is the dialog itself is a backdrop click.
           if (event.target === dialogRef.current) dialogRef.current.close();
@@ -62,7 +63,10 @@ export function ConfirmDialog({
       >
         <form action={action} className="flex flex-col gap-5 p-6">
           <div>
-            <h2 className="text-lg font-semibold tracking-tight text-fg">
+            <h2
+              id="confirm-dialog-title"
+              className="text-lg font-semibold tracking-tight text-fg"
+            >
               {title}
             </h2>
             <p className="mt-1.5 text-sm text-fg-muted">{description}</p>

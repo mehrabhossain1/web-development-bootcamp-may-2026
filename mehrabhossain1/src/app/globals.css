@@ -1,13 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  /* Signature brand gradient — emerald → teal. */
-  --gradient-brand: linear-gradient(
-    135deg,
-    #34d399 0%,
-    #10b981 45%,
-    #14b8a6 100%
-  );
+  /* Signature brand gradient — emerald → teal. Tuned dark enough that white
+     text on it meets WCAG AA. */
+  --gradient-brand: linear-gradient(135deg, #047857 0%, #0f766e 100%);
 }
 
 /*
@@ -16,16 +12,16 @@
  * `rounded-card`, …) and as `var(--token)` in component code.
  */
 @theme {
-  /* Brand / accent */
-  --color-primary: #059669;
-  --color-primary-hover: #10b981;
-  --color-primary-active: #047857;
+  /* Brand / accent — emerald, dark enough for AA-contrast white text. */
+  --color-primary: #047857;
+  --color-primary-hover: #065f46;
+  --color-primary-active: #064e3b;
   --color-accent-soft: #ecfdf5;
 
   /* Foreground — cool slate neutrals */
   --color-fg: #0f172a;
   --color-fg-muted: #475569;
-  --color-fg-subtle: #94a3b8;
+  --color-fg-subtle: #64748b;
 
   /* Surfaces & borders */
   --color-surface: #f8fafc;

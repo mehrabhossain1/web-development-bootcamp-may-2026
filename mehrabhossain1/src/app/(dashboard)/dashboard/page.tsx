@@ -34,6 +34,7 @@ export default async function DashboardPage() {
             <input
               type="text"
               name="name"
+              aria-label="Project name"
               placeholder="Project name"
               className={inputClass}
             />
