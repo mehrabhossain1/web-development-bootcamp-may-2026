@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 
 import { BrandMark } from "@/components/BrandMark";
 import { Button, buttonClass } from "@/components/ui/Button";
+import { toast } from "@/components/ui/toast";
 import { Canvas } from "@/features/builder/components/Canvas";
 import { Palette } from "@/features/builder/components/Palette";
 import { PropertiesPanel } from "@/features/builder/property-editors/PropertiesPanel";
@@ -165,8 +166,9 @@ export function BuilderShell({
     try {
       await updateProject(projectId, useEditorStore.getState().doc);
       markSaved();
+      toast.success("Project saved");
     } catch {
-      alert("Failed to save. Please try again.");
+      toast.error("Couldn’t save — please try again.");
     } finally {
       setSaving(false);
     }
