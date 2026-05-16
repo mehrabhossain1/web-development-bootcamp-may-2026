@@ -19,9 +19,12 @@ clean live preview, and export a standalone HTML file — no code required.
 ## Features
 
 - **Drag-and-drop canvas** — build pages visually with `@dnd-kit`; drag from the
-  palette to add, drag on the canvas to reorder, and nest elements inside
-  containers.
-- **Four element types** — text, image, button, and container (recursive).
+  palette to add, drag on the canvas to reorder, nest blocks inside containers,
+  and select or delete any block.
+- **Element blocks** — text, image, button, and container (recursive).
+- **Section blocks** — one-drag, ready-made sections: Header, Hero, Features,
+  Stats, Pricing, Testimonials, FAQ, CTA banner, and Footer. Each expands into
+  fully-editable element blocks, so a whole landing page is just a few drags.
 - **Property editor** — per-element panel for content, colors, spacing, image
   URL, and link href, with debounced inputs.
 - **Save & load** — each page is stored as a JSON tree in Postgres and reloaded
@@ -45,6 +48,7 @@ clean live preview, and export a standalone HTML file — no code required.
 | Validation | Zod |
 | Editor state | Zustand |
 | Drag and drop | dnd-kit |
+| Icons | lucide-react |
 | Hosting | Vercel |
 
 ## Getting started
@@ -112,13 +116,16 @@ mehrabhossain1/
    │  └─ api/
    │     ├─ auth/[...nextauth]/              # Auth.js route handler
    │     └─ projects/[id]/export/            # HTML file download
+   ├─ components/
+   │  ├─ BrandMark.tsx                       # Shared brand wordmark
+   │  └─ ui/                                 # Button, Field, Card, Badge, ConfirmDialog, Toast
    ├─ features/
    │  ├─ builder/{components,property-editors,store}/   # Editor UI + Zustand store
    │  ├─ renderer/ElementRenderer.tsx        # Recursive element renderer
    │  └─ projects/{actions.ts,queries.ts}    # Server actions + data queries
    ├─ lib/
-   │  ├─ prisma.ts   auth.ts                 # Prisma client + Auth.js config
-   │  └─ builder/{schema.ts,tree.ts,defaults.ts,htmlExport.ts}
+   │  ├─ prisma.ts   auth.ts   cn.ts         # Prisma client, Auth.js config, class helper
+   │  └─ builder/{schema.ts,tree.ts,defaults.ts,presets.ts,htmlExport.ts}
    └─ types/builder.ts                       # Page document model
 ```
 
