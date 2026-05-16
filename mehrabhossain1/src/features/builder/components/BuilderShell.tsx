@@ -169,13 +169,14 @@ export function BuilderShell({
             >
               Preview
             </a>
-            {/* Export is wired in TICKET-24. */}
-            <button
-              type="button"
+            {/* Export downloads the last saved tree as a standalone .html
+                file; the attachment header makes the browser download it. */}
+            <a
+              href={`/api/projects/${projectId}/export`}
               className="rounded-md border border-black/15 px-3 py-1.5 font-medium hover:bg-black/5"
             >
               Export
-            </button>
+            </a>
           </div>
         </header>
 
