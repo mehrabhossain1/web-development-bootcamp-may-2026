@@ -3,6 +3,7 @@ import {
   CircleHelp,
   CreditCard,
   LayoutGrid,
+  Megaphone,
   PanelBottom,
   PanelTop,
   Quote,
@@ -657,6 +658,45 @@ function createFaq(): ContainerElement {
   );
 }
 
+function createCta(): ContainerElement {
+  return box(
+    {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "16px",
+      padding: "56px 32px",
+      background: "linear-gradient(135deg, #047857 0%, #0f766e 100%)",
+    },
+    [
+      text("Ready to build your page?", {
+        fontSize: "30px",
+        fontWeight: "700",
+        color: "#ffffff",
+        textAlign: "center",
+        maxWidth: "480px",
+      }),
+      text("Create a free account and ship your first page in minutes.", {
+        fontSize: "16px",
+        lineHeight: "1.6",
+        color: "#d1fae5",
+        textAlign: "center",
+        maxWidth: "420px",
+      }),
+      button("Get started — free", "#", {
+        display: "inline-block",
+        padding: "12px 24px",
+        backgroundColor: "#ffffff",
+        color: "#047857",
+        borderRadius: "10px",
+        fontSize: "15px",
+        fontWeight: "600",
+        textDecoration: "none",
+      }),
+    ],
+  );
+}
+
 /** Registry of section presets shown in the palette. */
 export const SECTION_PRESETS: SectionPreset[] = [
   {
@@ -707,6 +747,13 @@ export const SECTION_PRESETS: SectionPreset[] = [
     description: "Question-and-answer list",
     icon: CircleHelp,
     create: createFaq,
+  },
+  {
+    key: "cta",
+    label: "CTA banner",
+    description: "A bold call-to-action band",
+    icon: Megaphone,
+    create: createCta,
   },
   {
     key: "footer",
