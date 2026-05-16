@@ -1,9 +1,11 @@
 import {
   BarChart3,
+  CircleHelp,
   CreditCard,
   LayoutGrid,
   PanelBottom,
   PanelTop,
+  Quote,
   Sparkles,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -509,6 +511,152 @@ function createPricing(): ContainerElement {
   );
 }
 
+/** A testimonial card — a quote and its author. */
+function testimonialCard(quote: string, author: string): ContainerElement {
+  return box(
+    {
+      display: "flex",
+      flexDirection: "column",
+      gap: "12px",
+      flex: "1 1 200px",
+      padding: "24px",
+      backgroundColor: "#f8fafc",
+      border: "1px solid #e2e8f0",
+      borderRadius: "12px",
+    },
+    [
+      text(quote, {
+        fontSize: "15px",
+        lineHeight: "1.6",
+        color: "#0f172a",
+      }),
+      text(author, {
+        fontSize: "13px",
+        fontWeight: "600",
+        color: "#475569",
+      }),
+    ],
+  );
+}
+
+function createTestimonials(): ContainerElement {
+  return box(
+    {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "16px",
+      padding: "64px 32px",
+      backgroundColor: "#ffffff",
+    },
+    [
+      text("Loved by builders", {
+        fontSize: "32px",
+        fontWeight: "700",
+        color: "#0f172a",
+        textAlign: "center",
+      }),
+      box(
+        {
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: "16px",
+          padding: "16px 0px 0px",
+          backgroundColor: "transparent",
+        },
+        [
+          testimonialCard(
+            "“This builder saved us weeks. We shipped our landing page in an afternoon.”",
+            "— Jordan Lee, Acme",
+          ),
+          testimonialCard(
+            "“The drag-and-drop is genuinely fast. My team picked it up instantly.”",
+            "— Priya Shah, Northwind",
+          ),
+          testimonialCard(
+            "“Clean output, no bloat. Exactly what I wanted from a page builder.”",
+            "— Marco Reyes, Foundry",
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+/** A FAQ entry — a question and its answer, with a divider. */
+function faqItem(question: string, answer: string): ContainerElement {
+  return box(
+    {
+      display: "flex",
+      flexDirection: "column",
+      gap: "6px",
+      padding: "18px 0px",
+      backgroundColor: "transparent",
+      borderBottom: "1px solid #e2e8f0",
+    },
+    [
+      text(question, {
+        fontSize: "16px",
+        fontWeight: "600",
+        color: "#0f172a",
+      }),
+      text(answer, {
+        fontSize: "14px",
+        lineHeight: "1.6",
+        color: "#475569",
+      }),
+    ],
+  );
+}
+
+function createFaq(): ContainerElement {
+  return box(
+    {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "16px",
+      padding: "64px 32px",
+      backgroundColor: "#ffffff",
+    },
+    [
+      text("Frequently asked questions", {
+        fontSize: "32px",
+        fontWeight: "700",
+        color: "#0f172a",
+        textAlign: "center",
+      }),
+      box(
+        {
+          display: "flex",
+          flexDirection: "column",
+          gap: "0px",
+          width: "100%",
+          maxWidth: "560px",
+          padding: "8px 0px 0px",
+          backgroundColor: "transparent",
+        },
+        [
+          faqItem(
+            "Do I need to know how to code?",
+            "Not at all — drag blocks onto the canvas and edit them in the side panel.",
+          ),
+          faqItem(
+            "Can I export my page?",
+            "Yes. Every page exports to a standalone HTML file you can host anywhere.",
+          ),
+          faqItem(
+            "Is there a free plan?",
+            "Yes — the Starter plan is free forever and includes one project.",
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
 /** Registry of section presets shown in the palette. */
 export const SECTION_PRESETS: SectionPreset[] = [
   {
@@ -545,6 +693,20 @@ export const SECTION_PRESETS: SectionPreset[] = [
     description: "Three-tier pricing plans",
     icon: CreditCard,
     create: createPricing,
+  },
+  {
+    key: "testimonials",
+    label: "Testimonials",
+    description: "Customer quote cards",
+    icon: Quote,
+    create: createTestimonials,
+  },
+  {
+    key: "faq",
+    label: "FAQ",
+    description: "Question-and-answer list",
+    icon: CircleHelp,
+    create: createFaq,
   },
   {
     key: "footer",
