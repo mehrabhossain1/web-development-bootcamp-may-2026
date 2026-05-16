@@ -1,6 +1,9 @@
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { BrandMark } from "@/components/BrandMark";
+import { Button } from "@/components/ui/Button";
 import { auth, signOut } from "@/lib/auth";
 
 export default async function DashboardLayout({
@@ -14,27 +17,39 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
+  const name = session.user.name ?? "User";
+  const initial = name.charAt(0).toUpperCase();
+
   return (
-    <div className="flex min-h-full flex-1 flex-col bg-zinc-50 text-zinc-900">
-      <header className="border-b border-black/10 bg-white">
-        <div className="mx-auto flex w-full max-w-4xl items-center justify-between px-6 py-3">
-          <Link href="/dashboard" className="font-semibold tracking-tight">
-            Website Builder
+    <div className="flex min-h-full flex-1 flex-col bg-surface">
+      <header className="border-b border-border bg-white">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-3">
+          <Link href="/dashboard">
+            <BrandMark />
           </Link>
-          <div className="flex items-center gap-4 text-sm">
-            <span className="text-zinc-600">{session.user.name}</span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <span className="flex size-8 items-center justify-center rounded-full bg-gradient-brand text-sm font-semibold text-white">
+                {initial}
+              </span>
+              <span className="hidden text-sm font-medium text-fg sm:inline">
+                {name}
+              </span>
+            </div>
             <form
               action={async () => {
                 "use server";
                 await signOut({ redirectTo: "/login" });
               }}
             >
-              <button
+              <Button
                 type="submit"
-                className="rounded-md border border-black/15 px-3 py-1.5 font-medium hover:bg-black/5"
+                variant="secondary"
+                size="sm"
+                leftIcon={<LogOut className="size-4" />}
               >
                 Sign out
-              </button>
+              </Button>
             </form>
           </div>
         </div>

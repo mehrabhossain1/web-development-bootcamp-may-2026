@@ -1,6 +1,10 @@
+import { Clock, LayoutTemplate, Plus } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { inputClass } from "@/components/ui/Field";
 import { createProject } from "@/features/projects/actions";
 import { listProjects } from "@/features/projects/queries";
 
@@ -14,59 +18,90 @@ export default async function DashboardPage() {
   const projects = await listProjects();
 
   return (
-    <div className="mx-auto w-full max-w-4xl px-6 py-10">
+    <div className="mx-auto w-full max-w-6xl px-6 py-10">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
+          <h1 className="text-2xl font-bold tracking-tight text-fg">
             Your projects
           </h1>
-          <p className="mt-1 text-sm text-zinc-600">
+          <p className="mt-1 text-sm text-fg-muted">
             Create a site and start building.
           </p>
         </div>
 
         <form action={createProject} className="flex items-center gap-2">
-          <input
-            type="text"
-            name="name"
-            placeholder="Project name"
-            className="rounded-md border border-black/15 bg-white px-3 py-1.5 text-sm outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
-          />
-          <button
-            type="submit"
-            className="rounded-md bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-zinc-700"
-          >
+          <div className="w-44 sm:w-56">
+            <input
+              type="text"
+              name="name"
+              placeholder="Project name"
+              className={inputClass}
+            />
+          </div>
+          <Button type="submit" leftIcon={<Plus className="size-4" />}>
             New project
-          </button>
+          </Button>
         </form>
       </div>
 
       {projects.length === 0 ? (
-        <div className="mt-10 rounded-xl border border-dashed border-black/15 bg-white px-6 py-16 text-center">
-          <p className="text-sm font-medium">No projects yet</p>
-          <p className="mt-1 text-sm text-zinc-500">
-            Use the “New project” button above to create your first site.
+        <Card className="mt-10 flex flex-col items-center px-6 py-16 text-center">
+          <span className="flex size-14 items-center justify-center rounded-2xl bg-accent-soft text-primary">
+            <LayoutTemplate className="size-7" />
+          </span>
+          <h2 className="mt-4 text-lg font-semibold text-fg">
+            No projects yet
+          </h2>
+          <p className="mt-1 max-w-sm text-sm text-fg-muted">
+            Create your first project and start dragging blocks onto the
+            canvas.
           </p>
-        </div>
-      ) : (
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-          {projects.map((project) => (
-            <li
-              key={project.id}
-              className="flex items-center justify-between gap-3 rounded-xl border border-black/10 bg-white p-4 transition-colors hover:border-black/25"
+          <form action={createProject} className="mt-6">
+            <Button
+              type="submit"
+              variant="gradient"
+              leftIcon={<Plus className="size-4" />}
             >
-              <Link href={`/builder/${project.id}`} className="min-w-0 flex-1">
-                <span className="block truncate font-medium">
-                  {project.name}
-                </span>
-                <span className="mt-0.5 block text-xs text-zinc-500">
-                  Updated {project.updatedAt.toLocaleDateString()}
-                </span>
-              </Link>
-              <DeleteProjectButton
-                projectId={project.id}
-                projectName={project.name}
-              />
+              Create your first project
+            </Button>
+          </form>
+        </Card>
+      ) : (
+        <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <li key={project.id}>
+              <Card
+                interactive
+                className="relative flex h-full flex-col overflow-hidden"
+              >
+                <div className="relative h-24 bg-gradient-brand">
+                  <LayoutTemplate
+                    aria-hidden
+                    className="absolute -bottom-3 right-3 size-20 text-white/15"
+                  />
+                </div>
+                <div className="flex items-start justify-between gap-3 p-4">
+                  <div className="min-w-0">
+                    <h3 className="truncate font-semibold text-fg">
+                      {project.name}
+                    </h3>
+                    <p className="mt-0.5 flex items-center gap-1 text-xs text-fg-subtle">
+                      <Clock className="size-3" />
+                      Updated {project.updatedAt.toLocaleDateString()}
+                    </p>
+                  </div>
+                  <DeleteProjectButton
+                    projectId={project.id}
+                    projectName={project.name}
+                    className="z-10"
+                  />
+                </div>
+                <Link
+                  href={`/builder/${project.id}`}
+                  aria-label={`Open ${project.name}`}
+                  className="absolute inset-0 rounded-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                />
+              </Card>
             </li>
           ))}
         </ul>
