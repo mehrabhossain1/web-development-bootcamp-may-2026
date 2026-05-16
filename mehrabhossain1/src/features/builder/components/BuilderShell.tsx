@@ -159,13 +159,17 @@ export function BuilderShell({
             >
               {saving ? "Saving…" : "Save"}
             </button>
-            {/* Preview / Export are wired in TICKET-23 / 24. */}
-            <button
-              type="button"
+            {/* Preview shows the last saved tree; unsaved edits need a Save
+                first. Opens in a new tab so live editor state is kept. */}
+            <a
+              href={`/preview/${projectId}`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="rounded-md border border-black/15 px-3 py-1.5 font-medium hover:bg-black/5"
             >
               Preview
-            </button>
+            </a>
+            {/* Export is wired in TICKET-24. */}
             <button
               type="button"
               className="rounded-md border border-black/15 px-3 py-1.5 font-medium hover:bg-black/5"

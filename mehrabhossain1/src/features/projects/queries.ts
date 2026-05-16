@@ -27,3 +27,14 @@ export async function getProject(id: string) {
     where: { id, userId },
   });
 }
+
+/**
+ * Returns a project by id with no auth or ownership check — backs the public,
+ * shareable `/preview/[id]` route. IDs are unguessable UUIDs, so a project is
+ * only reachable by someone who has been given its link.
+ */
+export async function getPublicProject(id: string) {
+  return prisma.project.findUnique({
+    where: { id },
+  });
+}
